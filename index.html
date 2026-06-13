@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Zaira 🌌</title>
+    <title>Capitulo 1</title>
     <style>
         /* Nueva tipografía Lora (Elegante, moderna y con curvas más suaves) */
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400&display=swap');
@@ -150,7 +150,7 @@
         <p>
             En algún lugar del espacio y del tiempo, una anomalía que desafió la credibilidad de las mismas, desató un sinfin de vida que atenta con permanecer toda la eternidad.
         </p>
-        <a href="Pages/cielo.html" class="btn-entrar" id="btn-iniciar-experiencia">Ver</a>
+        <a href="pages/cielo.html" class="btn-entrar" id="btn-iniciar-experiencia">Ver</a>
     </div>
 
     <div id="pantalla-cinematica" class="hidden">
@@ -240,7 +240,8 @@
                 temporizadores.forEach(t => clearTimeout(t));
                 sessionStorage.setItem('universo_audio_time', bgMusic.currentTime);
                 document.body.style.opacity = "0";
-                setTimeout(() => { window.location.href = "Pages/cielo.html"; }, 3000);
+                // Corregido a minúscula
+                setTimeout(() => { window.location.href = "pages/cielo.html"; }, 3000);
             }
 
             if(btnSkipIntro) btnSkipIntro.addEventListener("click", finalizarEfectoCinematico);
