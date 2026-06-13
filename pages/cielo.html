@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>El Cielo de nuestro Aniversario</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-geo-projection/0.2.16/d3.geo.projection.min.js"></script>
+    <script src="https://ofrohn.github.io/celestial.min.js"></script>
+    <link rel="stylesheet" href="https://ofrohn.github.io/celestial.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="nebula-bg"></div>
+
+    <audio id="bg-music" src="../audios/ambiente.mp3" loop></audio>
+    <audio id="sfx-star" src="../audios/destello.mp3"></audio>
+    <audio id="sfx-close" src="../audios/cerrar.mp3"></audio>
+
+    <div id="pantalla-cielo">
+        <div id="map-wrapper">
+            <div id="celestial-map"></div>
+        </div>
+
+        <div class="floating-controls">
+            <button id="btn-download-map" title="Descargar Mapa">📸</button>
+            <button id="btn-open-list" title="Mis Descubrimientos">📜</button>
+            <button id="btn-toggle-view" title="Alternar Vista">🌌</button>
+        </div>
+    </div>
+
+    <div id="pantalla-lista" class="pantalla-secundaria">
+        <button id="btn-back-cielo" class="btn-back">← Volver al cielo</button>
+        
+        <div class="list-container">
+            <div class="list-header">
+                <h1>Fragmentos Encontrados</h1>
+                <p>Todo lo que ya descubriste.</p>
+            </div>
+
+            <div class="list-tabs">
+                <button id="tab-textos" class="tab-btn active">Notas</button>
+                <button id="tab-multimedia" class="tab-btn">Multimedia</button>
+            </div>
+
+            <div class="list-section active" id="section-textos">
+                <div class="grid-items" id="container-textos"></div>
+            </div>
+
+            <div class="list-section" id="section-multimedia">
+                <div class="grid-items" id="container-multimedia"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay" class="hidden">
+        <div id="card">
+            <button id="close-card">×</button>
+            <div id="card-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

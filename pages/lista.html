@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mis Descubrimientos 📜</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="nebula-bg"></div>
+    <audio id="sfx-star" src="../audios/destello.mp3"></audio>
+    <audio id="sfx-close" src="../audios/cerrar.mp3"></audio>
+
+    <a href="cielo.html" class="btn-back">← Volver al cielo</a>
+
+    <div class="list-container" style="display: block;">
+        <div class="list-header">
+            <h1>Fragmentos Encontrados</h1>
+            <p>Todo lo que ya descubriste.</p>
+        </div>
+
+        <div class="list-tabs">
+            <button id="tab-textos" class="tab-btn active">Notas</button>
+            <button id="tab-multimedia" class="tab-btn">Multimedia</button>
+        </div>
+
+        <div class="list-section active" id="section-textos">
+            <div class="grid-items" id="container-textos"></div>
+        </div>
+
+        <div class="list-section" id="section-multimedia">
+            <div class="grid-items" id="container-multimedia"></div>
+        </div>
+    </div>
+
+    <div id="overlay" class="hidden">
+        <div id="card">
+            <button id="close-card">×</button>
+            <div id="card-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

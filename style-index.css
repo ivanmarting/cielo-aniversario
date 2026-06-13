@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+* { box-sizing: border-box; }
+
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%; 
+    /* Cambiamos a height: 100% estricto para evitar el bug del dvh en el primer render */
+    overflow: hidden; /* En el index no queremos scroll, queremos que todo esté centrado a la fuerza */
+    background: #010103;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff; 
+    
+    /* El truco del flexbox para el centrado absoluto horizontal y vertical */
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#space-background { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+.aurora { position: absolute; border-radius: 50%; filter: blur(100px); mix-blend-mode: screen; animation: floatAurora 25s infinite alternate ease-in-out; }
+.aurora-1 { width: 70vw; height: 70vh; background: rgba(20, 50, 140, 0.25); top: -20%; left: -10%; }
+.aurora-2 { width: 60vw; height: 60vh; background: rgba(40, 100, 180, 0.2); bottom: -10%; right: -20%; animation-duration: 30s; animation-direction: alternate-reverse; }
+.aurora-3 { width: 55vw; height: 55vh; background: rgba(70, 20, 110, 0.2); top: 30%; left: 20%; animation-duration: 35s; }
+
+@keyframes floatAurora {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(5vw, 10vh) scale(1.1) rotate(5deg); }
+    100% { transform: translate(-5vw, 5vh) scale(1.2) rotate(-5deg); }
+}
+
+.mini-star { position: absolute; background: #ffffff; border-radius: 50%; box-shadow: 0 0 8px 1px rgba(150, 200, 255, 0.9); opacity: 0; animation: twinkle linear infinite; }
+@keyframes twinkle { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.8; transform: scale(1.3); } 100% { opacity: 0; transform: scale(0.5); } }
+
+/* --- CONTENEDOR DE BIENVENIDA (CENTRADÍSIMO) --- */
+.intro-container { 
+    text-align: center; padding: 30px; max-width: 450px; width: 90%; 
+    animation: menuFadeIn 2.5s ease-in-out; transition: opacity 1.5s ease, transform 1.5s ease; 
+    z-index: 10; position: relative;
+    /* Sacamos los margins raros que lo empujaban hacia abajo */
+    margin: 0;
+}
+
+@keyframes menuFadeIn { from { opacity: 0; transform: translateY(20px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+h1 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 20px; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.2); margin-top: 0; }
+p { font-size: 1rem; line-height: 1.7; color: #b0b0c5; margin-bottom: 45px; font-weight: 300; letter-spacing: 0.5px; }
+
+.btn-entrar { background: rgba(255, 255, 255, 0.05); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.35); padding: 14px 35px; border-radius: 25px; font-size: 0.95rem; letter-spacing: 2px; cursor: pointer; text-decoration: none; transition: all 0.4s ease; display: inline-block; backdrop-filter: blur(5px); }
+.btn-entrar:hover { background: #ffffff; color: #020206; box-shadow: 0 0 25px rgba(255,255,255,0.4); border-color: #ffffff; }
+
+#pantalla-cinematica { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: transparent; z-index: 20; display: flex; justify-content: center; align-items: center; padding: 40px; pointer-events: none; }
+#textos-narracion { max-width: 800px; text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+
+.texto-cine { font-family: 'Playfair Display', serif; font-size: 2.2rem; line-height: 1.6; font-weight: 400; color: #f1f5f9; margin: 0; letter-spacing: 1px; text-shadow: 0 0 25px rgba(255, 255, 255, 0.2); opacity: 0; filter: blur(12px); transform: scale(0.95) translateY(10px); }
+.texto-cine.fade-in { animation: cinematicEntry var(--duration) ease-out forwards; }
+.texto-cine.fade-out { animation: cinematicExit 2s ease-in forwards; }
+
+@keyframes cinematicEntry { 0% { opacity: 0; filter: blur(15px); transform: scale(0.95) translateY(15px); } 15% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); } 100% { opacity: 1; filter: blur(0); transform: scale(1.05) translateY(-15px); } }
+@keyframes cinematicExit { 0% { opacity: 1; filter: blur(0); transform: scale(1.05) translateY(-15px); } 100% { opacity: 0; filter: blur(10px); transform: scale(1.08) translateY(-25px); } }
+
+.btn-skip { position: absolute; bottom: 40px; right: 40px; background: none; border: none; color: rgba(255,255,255,0.2); font-family: 'Montserrat', sans-serif; font-size: 0.85rem; cursor: pointer; transition: color 0.3s, opacity 0.5s; padding: 10px; z-index: 25; opacity: 0; pointer-events: none; letter-spacing: 1px; }
+.btn-skip.visible { opacity: 1; pointer-events: auto; }
+.btn-skip:hover { color: rgba(255,255,255,0.6); }
+
+.hidden { display: none !important; }
+
+@media (max-width: 768px) {
+    /* Mantenemos el centrado absoluto pero achicamos las letras */
+    .intro-container { padding: 15px; }
+    h1 { font-size: 1.8rem; }
+    .texto-cine { font-size: 1.5rem; }
+    
+    /* Forzamos el botón skip a no desaparecer abajo de todo */
+    .btn-skip { bottom: 30px; right: 20px; font-size: 0.8rem; }
+}
