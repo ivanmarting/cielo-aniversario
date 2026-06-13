@@ -9,24 +9,22 @@ const latitudBarranqueras = -27.48;
 const longitudBarranqueras = -58.93; 
 
 const esMovil = window.innerWidth <= 768;
-const factorMultiplicador = esMovil ? 1.2 : 1.5; 
-const tamañoLienzo = Math.max(window.innerWidth, window.innerHeight) * factorMultiplicador;
+
+// EL TRUCO MAESTRO:
+// 1. renderSize: Obligamos a la librería a dibujar en calidad Desktop (líneas finas, estrellas sutiles)
+const renderSize = esMovil ? 1600 : Math.max(window.innerWidth, window.innerHeight) * 1.5;
+
+// 2. cssSize: Es el tamaño real que ocupará en la pantalla para que puedas navegar cómodamente sin "mucho zoom"
+const cssSize = Math.max(window.innerWidth, window.innerHeight) * (esMovil ? 1.3 : 1.5);
 
 const mapWrapper = document.getElementById("map-wrapper");
 const mapContainer = document.getElementById("celestial-map");
-
-if(mapContainer) {
-    mapContainer.style.width = tamañoLienzo + "px";
-    mapContainer.style.height = tamañoLienzo + "px";
-}
 
 const poolRecuerdos = [
     { type: "text", title: "Nota #1", content: "Te amo." },
     { type: "text", title: "Nota #2", content: "Estoy muy orgulloso de la mujer que sos." },
     { type: "video", title: "El Tesoro", content: "El Mató a un Policía Motorizado.", url: "../videos/1.mp4" },
-
     { type: "audio", title: "La Noche Eterna - El Mató a un Policía Motorizado", content: "La Noche Eterna es una poesía viva que me recuerda a la noche mas importante de mi vida, y una melodía final que me transporta al momento exacto en el que seguí mi corazón y empecé a amarte sin cadenas. Nunca se menciona en la letra, pero se describe a tal punto de que sabes que se habla de ella, de esa noche eterna, esa noche que un día empezó y nunca va a terminar, el día que no tiene vuelta atrás, una noche mágica, especial, donde se empieza de nuevo, donde nos volvimos complices del caos, el oro a la medianoche, donde no quedó nada ni nadie más, porque todos se escondieron ante nuestros ojos, el mundo se hizo nuestro porque lo teníamos frente a nosotros, envuelto en nuestros brazos.", url: "../audios/lanocheeterna.mp3" },
-
     { type: "text", title: "Nota #3", content: "Donde estemos juntos será nuestro hogar." },
     { type: "text", title: "Nota #4", content: "Tu risa es el único sonido que me gustaría escuchar por la eternidad." },
     { type: "text", title: "Nota #5", content: "Viajar por las estrellas debería sentirse igual que hundirme en tus abrazos." },
@@ -36,24 +34,18 @@ const poolRecuerdos = [
     { type: "text", title: "Nota #9", content: "Voy a estar con vos cuando caigas y cuando vueles." },
     { type: "text", title: "Nota #10", content: "Todo lo que hago es para vos." },
     { type: "text", title: "Nota #11", content: "Caminar con vos es el único camino posible." },
-
     { type: "audio", title: "Violencia - El Mató a un Policía Motorizado", content: "A veces nos golpean tan fuerte que nos deja la mirada perdida, llenos de corazas y de una violencia que en realidad es puro dolor acumulado. Pero el amor de verdad no entiende el temor por los fantasmas; se queda a abrazarlos. Para mí, esta canción es mirarte a los ojos y decirte que acá podés bajar la guardia, que no hace falta que seas fuerte todo el tiempo. Ser tu tregua en medio de la tormenta y ver cómo tu luz vuelve a brillar es lo más valioso que tengo. Cuidarte es mi forma de agradecerte por confiar en mí, y por cada día que me regalás.", url: "../audios/violencia.mp3" },
-
     { type: "text", title: "Nota #12", content: "Te elegiría hoy, mañana, y en todas las vidas que me quedan por vivir." },
     { type: "text", title: "Nota #13", content: "Si todo en este mundo cambia, que lo único que permanezca sea nosotros." },
     { type: "text", title: "Nota #14", content: "Tu paz es mi mayor tesoro." },
     { type: "text", title: "Nota #15", content: "Cada día es una oportunidad más para amarte un poquito mejor." },
     { type: "text", title: "Nota #16", content: "Quiero que me regales cada segundo que te quede por vivir." },
-
     { type: "audio", title: "Limón y Sal - Julieta Venegas", content: "Yo te quiero, con Limón y Sal.", url: "../audios/limonysal.mp3" },
-    
     { type: "text", title: "Nota #17", content: "Mi lugar seguro siempre vas a ser vos." },
     { type: "text", title: "Nota #18", content: "Hay una conexión imborrable que construimos día a día." },
     { type: "text", title: "Nota #19", content: "Un paso muy pequeño sigue siendo un avance." },
     { type: "text", title: "Nota #20", content: "Tu valor no lo define el resultado de un mal día, si lo es tu inquebrantable convicción de seguir adelante." },
-
     { type: "audio", title: "Eres - Café Tacvba", content: "Sos el pensamiento más profundo que me habita, el centro de gravedad de todo mi universo. No sé cómo explicarlo sin que suene enorme: sos mi salvación, mi esperanza y la única certeza que tengo. Estar sin vos es estar apagado, porque de verdad sos todo lo que le da sentido a mi vida. No hace falta dar vueltas ni buscar palabras raras cuando la realidad es tan gigante: sos lo que más quiero en este mundo, lo que habita en mi mente cada minuto del día y lo único que necesito para estar completo. Acá me tenés hoy, y acá me voy a quedar sentado a tu lado hasta el final.", url: "../audios/eres.mp3" },
-
     { type: "text", title: "Nota #21", content: "Creo que sos la pieza que le faltaba a mi realidad para que todo encajara." },
     { type: "text", title: "Nota #22", content: "When everything is uncertain, your love is my only certainty." },
     { type: "text", title: "Nota #23", content: "Te amo en los días buenos, pero te elijo mucho mas cuando todo cuesta." },
@@ -68,9 +60,7 @@ const poolRecuerdos = [
     { type: "text", title: "Nota #32", content: "Amo como me obligas a mirar dentro de mí cuando estoy con vos." },
     { type: "text", title: "Nota #33", content: "Mi acto mas valiente es elegirte cada día, incluso cuando me cuesta quererme a mi." },
     { type: "text", title: "Nota #34", content: "A veces me pregunto si sabés cuanto impacto tenés en mi forma de entender la felicidad." },
-
     { type: "audio", title: "Vuelta por el Universo - Gustavo Cerati", content: "Habitamos una frecuencia infinita, un viaje suspendido en el espacio donde el tiempo deja de correr. Nos desprendemos de la tierra y nos transformamos en pura luz, navegando entre planetas, invisibles para el resto del mundo. No hay distancia ni límites que contengan lo que somos cuando nos sintonizamos: dos almas que flotan en la inmensidad, fundidas en un sonido sutil que no va a callarse nunca.", url: "../audios/vueltaporeluniverso.mp3" },
-
     { type: "text", title: "Nota #35", content: "Lo que hoy te quiebra, mañana va a ser el cimiento de lo que vas a construir para protegerte." },
     { type: "text", title: "Nota #36", content: "La maravillosa persona que sos, es el resultado de tus batallas, no de tus derrotas, separá ambas cosas." },
     { type: "text", title: "Nota #37", content: "Si no sos mi todo, estoy seguro de que sos el lugar donde quiero guardar mi todo." },
@@ -82,17 +72,13 @@ const poolRecuerdos = [
     { type: "text", title: "Nota #43", content: "Bailás como la princesa del reino neurótico de mi niñez." },
     { type: "text", title: "Nota #44", content: "Quizás en el plan de dios, encontrarte fue su manera de pedirme perdón." },
     { type: "text", title: "Nota #45", content: "No es tu culpa, la autenticidad es un lenguaje que no todos están listos para traducir." },
-
     { type: "audio", title: "Crema de Estrellas - Soda Stereo", content: "Recordar tus gustos, tu olor, tus palabras y la química exacta de tu cuerpo es volver a habitar ese refugio donde el tiempo no corre. Es perderse en una inmensa quietud donde no existe el espacio ni las distancias, solo la certeza de que tu cuerpo está grabado en lo más profundo de mis sentidos.", url: "../audios/cremadeestrellas.mp3" },
-
     { type: "text", title: "Nota #46", content: "Tratate con la misma piedad con la que tratarías a alguien a quien amás profundamente." },    
     { type: "text", title: "Nota #47", content: "Mi amor trasciende cualquier palabra, y cualquier acción, haces que mi corazón se sintiera como si hablara un idioma olvidado." },     
     { type: "text", title: "Nota #48", content: "La realidad es que yo solo existo cuando estoy con vos." },
     { type: "text", title: "Nota #49", content: "A veces el amor es solo la decisión de sostenernos el uno al otro mientras el mundo gira sin preguntarnos." },
     { type: "text", title: "Nota #50", content: "La energía de mi amor es lo único constante va a seguir brillando cuando nos alcance la nada." },    
-
     { type: "audio", title: "Paraíso Lunar - Siddhartha", content: "Pensamos que lo nuestro era una coincidencia de la que podíamos escapar, pero tocamos fibras demasiado profundas como para buscar en otro lado. No vamos a vivir lo suficiente para saber o mínimamente entender lo que hay mas allá, pero ver todo lo que generás en mí, es ver estallar el universo para que nazca algo completamente nuevo. ", url: "../audios/paraisolunar.mp3" },
-
     { type: "text", title: "Nota #51", content: "Sos el reflejo del universo intentando conocerse a sí mismo; no te frenes, que el camino es eterno." },     
     { type: "text", title: "Nota #52", content: "Nunca vuelvas a cargar con los pecados ni el peso de quienes no supieron cuidar su corazón, eso no te pertenece." },
     { type: "text", title: "Nota #53", content: "Hay una inneludible gravedad en tu entereza, yo solo orbito al rededor de ella." },
@@ -100,17 +86,13 @@ const poolRecuerdos = [
     { type: "text", title: "Nota #55", content: "Hay una memoria en mi piel que te reconoce antes de que llegues." },     
     { type: "text", title: "Nota #56", content: "Las estrellas mas grandes del universo un día fueron solo polvo." },
     { type: "text", title: "Nota #57", content: "Encontrarte me obligó a creer que hay algo mucho mas grande que nosotros dos." },
-
     { type: "audio", title: "Luz de Día - Los Enanitos Verdes", content: "Nuestras vidas pueden haber tomado caminos distintos, pero esta noche el tiempo se dobla para darnos la razón. Besarte y decir tu nombre es mi forma de mirar el cielo; sos quién me salva de la pena y le da color a mis acuarelas. Y si tengo que frenar el mundo entero para que esto pase una y otra vez, lo haría sin dudarlo; creo yo, que no necesito nada mas que vos para agradecer mi vida.", url: "../audios/luzdedia.mp3" },
-
     { type: "text", title: "Nota #58", content: "Mi corazón te pertenece y hace mucho dejó de pelear por su libertad." },    
     { type: "text", title: "Nota #59", content: "Ninguna de las cosas mas hermosas de esta vida tendrían sentido sin vos." },     
     { type: "text", title: "Nota #60", content: "Nada me aterra mas que la idea de que la vida no me alcance para amarte lo suficiente." },
     { type: "text", title: "Nota #61", content: "Decirte te amo es la confesión que esconde toda la esperanza que me queda de vida." },
     { type: "text", title: "Nota #62", content: "Te elijo con el mayor egoísmo de saber que solo yo quiero saber lo hermosa que sos." },    
-
     { type: "audio", title: "Donde Vamos - Mancha de Rolando", content: "Mientras el resto del mundo corre sin dirección, nuestro mayor secreto es saber frenar. Para mí se volvió algo muy simple: un cielo enorme, la tranquilidad de la noche y estar abrazado a vos, que sos mi cable a tierra y el fuego que me enciende. Si todo lo demás se vuelve un caos, si dios quiere que corramos mas rápido, si alguien te pide mas de lo que podes dar, no me importa; dejamos todo y empezamos otra vez. Al final del día, no me interesa a dónde ni como vamos, siempre y cuando sea con vos.", url: "../audios/dondevamos.mp3" },
-
     { type: "text", title: "Nota #63", content: "Tu angustia nunca va a ser algo que amargue mis días, es el combustible de mi espíritu para pelear por un mundo mejor, para vos." },     
     { type: "text", title: "Nota #64", content: "Tenes en vos la energía para transformar lo imposible en lo posible." },
     { type: "text", title: "Nota #65", content: "Lo único real del tiempo es lo que dejas grabado en mi corazón." },
@@ -121,17 +103,16 @@ const poolRecuerdos = [
     { type: "text", title: "Nota #70", content: "Sos mi primer pensamiento, y mi ultima rendición, un ciclo del que no quiero, ni sabría como salir." },    
     { type: "text", title: "Nota #71", content: "Mi fuerza no es mas que un reflejo de tu amor." },     
     { type: "text", title: "Nota #72", content: "Si un día me olvido de lo que soy, espero que mis palabras me recuerden que mi única identidad es amarte." },
-
-    { type: "audio", title: "11 y 6 - Fito Paez", content: "Somos una fuerza invencible, superior a los dioses, capaz de hacer desaparecer el resto del mundo. Somos el amor como salvación, y nada lo describe mejor que esta canción, dar la luna con tal de verte reír, y demostrar que la felicidad real se construye con lo mínimo cuando estás con la persona indicada, pero siempre apuntando a más. ", url: "../audios/11y6.mp3" },
+    { type: "audio", title: "11 y 6 - Fito Paez", content: "Somos una fuerza invencible, superior a los dioses, capaz de hacer desaparecer el resto del mundo. Somos el amor como salvación, y nada lo describe mejor que esta canción, dar la luna con tal de verte reír, y demostrar que la felicidad real se construye con lo mínimo cuando estás con la persona indicada, pero siempre apuntando a más. ", url: "../audios/11y6.mp3" }
 ];
 
 const configCielo = {
-  width: tamañoLienzo, height: tamañoLienzo,
+  width: renderSize, height: renderSize, // DIBUJO EN CALIDAD GIGANTE
   projection: "stereographic", transform: "equatorial", center: [269.47, -27.48, 0], 
   date: fechaExacta, location: [latitudBarranqueras, longitudBarranqueras],
-  stars: { show: true, limit: esMovil ? 4.2 : 5.5, size: esMovil ? 2 : 4, colors: false, style: { fill: "#ffffff", opacity: 1 }, names: false },
+  stars: { show: true, limit: 5.5, size: 4, colors: false, style: { fill: "#ffffff", opacity: 1 }, names: false },
   dsos: { show: false }, 
-  constellations: { show: true, names: false, style: { stroke: "rgba(255, 255, 255, 0.2)", width: esMovil ? 0.5 : 1 } },
+  constellations: { show: true, names: false, style: { stroke: "rgba(255, 255, 255, 0.2)", width: 1 } },
   mw: { show: true, style: { fill: "rgba(255, 255, 255, 0.05)" } },
   lines: { graticule: { show: false }, equatorial: { show: false }, ecliptic: { show: false }, galactic: { show: false }, supergalactic: { show: false } },
   background: { fill: "transparent", stroke: "transparent", opacity: 0 }, datapath: "https://ofrohn.github.io/data/", interactive: false, remember: false
@@ -171,13 +152,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { once: true });
     }
 
+    // CORRECCIÓN DE DESCARGA: Pinta el fondo azul nocturno exacto en altísima calidad
     if (btnDownloadMap) {
         btnDownloadMap.addEventListener("click", () => {
-            const canvas = document.querySelector("#celestial-map canvas");
-            if (canvas) {
+            const originalCanvas = document.querySelector("#celestial-map canvas");
+            if (originalCanvas) {
+                const compositeCanvas = document.createElement("canvas");
+                compositeCanvas.width = originalCanvas.width;
+                compositeCanvas.height = originalCanvas.height;
+                const ctx = compositeCanvas.getContext("2d");
+
+                const cx = compositeCanvas.width / 2;
+                const cy = compositeCanvas.height / 2;
+                const r = Math.max(cx, cy);
+                const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+                gradient.addColorStop(0, "#050510"); 
+                gradient.addColorStop(1, "#010103"); 
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, compositeCanvas.width, compositeCanvas.height);
+                ctx.drawImage(originalCanvas, 0, 0);
+
                 const link = document.createElement("a");
                 link.download = "nuestro-cielo-infinito.png";
-                link.href = canvas.toDataURL("image/png", 1.0);
+                link.href = compositeCanvas.toDataURL("image/png", 1.0);
                 link.click();
             }
         });
@@ -187,11 +185,16 @@ document.addEventListener("DOMContentLoaded", () => {
         mapContainer.innerHTML = "";
         Celestial.display(configCielo);
         Celestial.skyview({ date: fechaExacta, location: [latitudBarranqueras, longitudBarranqueras] });
+        
+        // APLICAMOS EL "ACHICAMIENTO" FISICO LUEGO DE DIBUJAR EN MODO PC
+        mapContainer.style.width = cssSize + "px";
+        mapContainer.style.height = cssSize + "px";
+        
         crearEstrellasDiarias();
 
         setTimeout(() => {
-            mapWrapper.scrollLeft = (tamañoLienzo - window.innerWidth) / 2;
-            mapWrapper.scrollTop = (tamañoLienzo - window.innerHeight) / 2 + 100;
+            mapWrapper.scrollLeft = (cssSize - window.innerWidth) / 2;
+            mapWrapper.scrollTop = (cssSize - window.innerHeight) / 2 + 100;
         }, 150);
     }
 
@@ -226,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
             vistaCompleta = !vistaCompleta;
             if (vistaCompleta) {
                 const ladoMenorPantalla = Math.min(window.innerWidth, window.innerHeight);
-                const escala = (ladoMenorPantalla * 0.95) / tamañoLienzo; 
+                const escala = (ladoMenorPantalla * 0.95) / cssSize; 
                 mapContainer.style.transform = `scale(${escala})`;
                 btnToggle.innerHTML = "🔍"; 
                 mapWrapper.style.overflow = "hidden"; 
@@ -235,15 +238,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 btnToggle.innerHTML = "🌌"; 
                 mapWrapper.style.overflow = "auto"; 
             }
-            mapWrapper.scrollLeft = (tamañoLienzo - window.innerWidth) / 2;
-            mapWrapper.scrollTop = (tamañoLienzo - window.innerHeight) / 2 + 100;
+            mapWrapper.scrollLeft = (cssSize - window.innerWidth) / 2;
+            mapWrapper.scrollTop = (cssSize - window.innerHeight) / 2 + 100;
         });
     }
 
     if (mapWrapper) {
         let isDown = false; let startX, startY, scrollLeft, scrollTop;
         mapWrapper.addEventListener('mousedown', (e) => {
-            if (mapContainer.style.transform !== "scale(1)" && mapContainer.style.transform !== "") return; 
+            if (mapContainer && (mapContainer.style.transform !== "scale(1)" && mapContainer.style.transform !== "")) return; 
             isDown = true; startX = e.pageX - mapWrapper.offsetLeft; startY = e.pageY - mapWrapper.offsetTop;
             scrollLeft = mapWrapper.scrollLeft; scrollTop = mapWrapper.scrollTop;
         });
@@ -288,7 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 sfxClose.play().catch(e => {});
             }
             
-            // Restaura el volumen de ambiente dependiendo de dónde estamos
             if(musicaIniciada && bgMusic) {
                 if (pantallaLista && pantallaLista.classList.contains("active")) {
                     bgMusic.play().catch(e=>{});
@@ -358,7 +360,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (media.paused) { 
                 media.play(); 
                 btnPlay.innerHTML = "❚❚"; 
-                // CORRECCIÓN APLICADA AQUÍ: Apagamos la música gradualmente CUANDO el usuario le da play al contenido.
                 if (musicaIniciada && bgMusic) {
                     desvanecerVolumen(bgMusic, 0, 1500);
                 }
@@ -371,8 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         media.addEventListener('timeupdate', () => {
             if (!media.duration) return;
-            const pct = (media.currentTime / media.duration) * 100;
-            progressBar.value = pct;
+            progressBar.value = (media.currentTime / media.duration) * 100;
             const curM = Math.floor(media.currentTime / 60);
             const curS = Math.floor(media.currentTime % 60).toString().padStart(2, '0');
             const durM = Math.floor(media.duration / 60);
@@ -398,9 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function desplegarRecuerdo(recuerdo) {
         if(sfxStar) { sfxStar.currentTime = 0; sfxStar.volume = 0.6; sfxStar.play().catch(e => {}); }
-
-        // ELIMINADA la línea que apagaba la música de ambiente al abrir el recuerdo
-        // La música seguirá sonando de fondo pacíficamente hasta que ella le dé a Play.
 
         let estructuraHtml = `<h3>${recuerdo.title}</h3>`;
         if (recuerdo.type === "text") {
@@ -447,6 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const pos = estadoCielo.posiciones[i];
             const estrellaNodo = document.createElement("div");
             estrellaNodo.className = "interactive-star";
+            // Posicionamiento basado en el cssSize real para que coincida visualmente
             estrellaNodo.style.top = pos.top;
             estrellaNodo.style.left = pos.left;
             
@@ -522,6 +520,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
-        enfocarCentro();
     }, 350);
 });
